@@ -31,7 +31,7 @@ class VideoPlayer extends Component {
     }
 
     handleLoadedMetadata = event => {
-        this.event = event.target;
+        this.video = event.target;
         this.setState({
             duration: this.video.duration
         });
@@ -77,10 +77,12 @@ class VideoPlayer extends Component {
         this.player = element;
     }
 
+    
+
     render(){
         return (
             <VideoPlayerLayout
-            setRef={this.setRef}
+                setRef={this.setRef}
             >
                 <Title
                     title={this.props.title}
@@ -94,6 +96,7 @@ class VideoPlayer extends Component {
                         duration={this.state.duration}
                         currentTime={this.state.currentTime}
                     />
+                    
                     <ProgressBar
                         duration={this.state.duration}
                         value={this.state.currentTime}
@@ -119,9 +122,8 @@ class VideoPlayer extends Component {
                     src={this.props.src}
                 />
             </VideoPlayerLayout>
-
         )
     }
 }
 
-export default VideoPlayer
+export default VideoPlayer;
