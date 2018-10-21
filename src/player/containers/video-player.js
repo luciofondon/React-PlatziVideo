@@ -5,12 +5,17 @@ import Title from '../components/title';
 import PlayPause from '../components/play-pause';
 import Timer from '../components/timer';
 import Controls from '../components/video-player-controls';
+import ProgressBar from '../components/progress-bar';
+import Spinner from '../components/spinner';
+import Volume from '../components/volume';
+import FullScreen from '../components/full-screen';
 
 class VideoPlayer extends Component {
     state = {
         pause: true,
         duration: 0,
-        currentTime: 0
+        currentTime: 0,
+        loading: false
     }
 
     togglePlay = (event) =>{
@@ -25,7 +30,7 @@ class VideoPlayer extends Component {
         })
     }
 
-    handleLoadedMedata = event => {
+    handleLoadedMetadata = event => {
         this.event = event.target;
         this.setState({
             duration: this.video.duration
@@ -33,17 +38,52 @@ class VideoPlayer extends Component {
     }
 
     handleTimeUpdate = event => {
-       
         this.setState({
-            currentTime:  this.vide.currentTime
+            currentTime: this.video.currentTime
         })
+    }
+
+    handleProgressChange = event => {
+        this.video.currentTime = event.target.value;
+    }
+
+    handleSeeking = event => {
+        this.setState({
+            loading: true
+        })
+    }
+
+    handleSeeked = event => {
+        this.setState({
+            loading: false
+        })    
+    }
+
+    handleVolumeChange = event => {
+        this.video.volume = event.target.value
+    }
+
+    handleFullScreenClick = event => {
+        if(!document.webkitIsFullScreen){
+            //Pantalla completa
+            this.player.webkitRequestFullscreen();
+        }else{
+            //Salir de pantalla completa
+            document.webkitExitFullscreen()
+        }
+    }
+
+    setRef = element => {
+        this.player = element;
     }
 
     render(){
         return (
-            <VideoPlayerLayout>
+            <VideoPlayerLayout
+            setRef={this.setRef}
+            >
                 <Title
-                    title="Titulo"
+                    title={this.props.title}
                 />
                 <Controls>
                     <PlayPause
@@ -54,13 +94,29 @@ class VideoPlayer extends Component {
                         duration={this.state.duration}
                         currentTime={this.state.currentTime}
                     />
+                    <ProgressBar
+                        duration={this.state.duration}
+                        value={this.state.currentTime}
+                        handleProgressChange={this.handleProgressChange}
+                    />
+                    <Volume 
+                        handleVolumeChange={this.handleVolumeChange}
+                    />
+                    <FullScreen
+                        handleFullScreenClick={this.handleFullScreenClick}
+                    />
                 </Controls>
+                <Spinner
+                    active={this.state.loading}
+                />
                 <Video
                     autoplay={this.props.autoplay}
                     pause={this.state.pause}
-                    handleLoadedMedata={this.handleLoadedMedata}
+                    handleLoadedMetadata={this.handleLoadedMetadata}
                     handleTimeUpdate={this.handleTimeUpdate}
-                    src="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+                    handleSeeking={this.handleSeeking}
+                    handleSeeked={this.handleSeeked}
+                    src={this.props.src}
                 />
             </VideoPlayerLayout>
 

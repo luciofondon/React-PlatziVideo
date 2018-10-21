@@ -25,9 +25,10 @@ class Media extends PureComponent{
         console.log(this.props.title)
         // Cambiar el author
         // Con this.state.author = "XXXX"; no se podria y hay
-        this.setState({
+        /*this.setState({
             author: 'Nuevo nombre'
-        });
+        });*/
+        this.props.openModal(this.props);
     }
 
     render(){
@@ -46,7 +47,7 @@ class Media extends PureComponent{
         // <div className="Media" onClick={this.handleClick}>
 
         return(
-            <div className="Media" onClick={this.props.handleClick}>
+            <div className="Media" onClick={this.handleClick}>
                 <div className="Media-cover">
                     <img src={this.props.cover} alt="" width={240} height={160}/>
                     <h3 className="Media-title">{this.props.title}</h3>
