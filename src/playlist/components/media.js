@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes  from 'prop-types';
-
 import './media.css';
+import { Link } from 'react-router';
+
 class Media extends PureComponent{
     constructor(props){
         super(props);
@@ -47,13 +48,23 @@ class Media extends PureComponent{
         // <div className="Media" onClick={this.handleClick}>
 
         return(
-            <div className="Media" onClick={this.handleClick}>
-                <div className="Media-cover">
-                    <img src={this.props.cover} alt="" width={240} height={160}/>
-                    <h3 className="Media-title">{this.props.title}</h3>
-                    <p className="Media-author">{this.state.author} </p>
+            <Link to={{
+                    pathname: "/videos",
+                    search: `?id=${this.props.id}`,
+                    state:{ //Esta informacion la averiguo con redux
+                        modal: true,
+                        id: this.props.id
+                    }
+                }}
+            >
+                <div className="Media" onClick={this.handleClick}>
+                    <div className="Media-cover">
+                        <img src={this.props.cover} alt="" width={240} height={160}/>
+                        <h3 className="Media-title">{this.props.title}</h3>
+                        <p className="Media-author">{this.state.author} </p>
+                    </div>
                 </div>
-            </div>
+            </Link>
         );
     }
 }
