@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 class SearchContainer extends Component{
     state = {
-        value: "Luis Fonsi"
+        value: "Luis Fonsi",
+        prompt: false
     }
     handleSubmit = event => {
         //No recargar la pagina con el input 
@@ -12,6 +13,11 @@ class SearchContainer extends Component{
         //Obtener el valor, se podria hacer con document.getElementById
         console.log(this.input.value, "submit");
 
+        // Si la busqueda va a trave de una api
+        /*fetch(`http://miapi.com/buscar/${this.input.value}`).then((data)={
+            this.props.actions.searchEntities(this.input.value);
+        })*/
+  
         this.props.dispatch({
             type: "SEARCH_VIDEO",
             payload: {
@@ -28,7 +34,8 @@ class SearchContainer extends Component{
     handleInputChange = (event) => {
         // Cambiar los espacios por -
         this.setState({
-            value: event.target.value.replace(' ', '-')
+            value: event.target.value.replace(' ', '-'),
+            prompt: !!(event.targe.value.length)
         })
     }
 
@@ -39,6 +46,7 @@ class SearchContainer extends Component{
                 handleSubmit={this.handleSubmit}
                 handleChange={this.handleInputChange}
                 value={this.state.value}
+                prompt={this.state.prompt}
             />
         )
     }

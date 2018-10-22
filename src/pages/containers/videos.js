@@ -26,6 +26,15 @@ class Home extends Component {
             modalVisible: false
         });
     }
+    
+    // Pintar el modal cuando elijo un video random de otra vista y redirijo la ruta
+    componentDidMount(){
+        const search = this.props.location.search;
+        if(search){
+            const id = search.split("=")[1];
+            this.handleOpenModal(id)
+        }
+    }
 
     //Sin redux: categories={this.props.data.categories}
     render(){

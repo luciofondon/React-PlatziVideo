@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes  from 'prop-types';
 import './media.css';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 class Media extends PureComponent{
     constructor(props){
